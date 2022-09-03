@@ -1,5 +1,6 @@
 import torch
 from transformers import BertTokenizer, BertModel, BertConfig
+import json
 
 model_name = 'bert-base-uncased'
 tokenizer = BertTokenizer.from_pretrained(model_name)
@@ -7,7 +8,8 @@ model = BertModel.from_pretrained(model_name)
 
 text = "Replace me by any text you'd like."
 encoded_input = tokenizer(text, return_tensors='pt')["input_ids"]
-
+with open ("word_ids.json", "w") as f:
+	f.write(json.dumps(encoded_input.tolist()))
 output = model(encoded_input)["last_hidden_state"]
 
 print (output)
